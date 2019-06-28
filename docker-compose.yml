@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  # Auth instance
+  auth:
+    image: eu.gcr.io/withergate-215313/withergate-auth
+    ports:
+      - "9000:9000"
+    environment:
+      - "SPRING_PROFILES_ACTIVE=local"
+
+  # Api instance
+  api:
+    image: eu.gcr.io/withergate-215313/withergate-api
+    ports:
+      - "8080:8080"
+    environment:
+      - "SPRING_PROFILES_ACTIVE=local"
+      - "security.oauth2.resource.userInfoUri=http://auth:9000/user"
