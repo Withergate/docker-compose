@@ -15,8 +15,8 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - "SPRING_PROFILES_ACTIVE=local"
       - "security.oauth2.resource.userInfoUri=http://auth:9000/user"
+      - "SPRING_PROFILES_ACTIVE=local"
 
   # Client instance
   client:
@@ -28,3 +28,4 @@ services:
       - "AUTH_URL=http://localhost:9000/"
       - "REDIRECT_URL=http://localhost:3000"
       - "CLIENT_ID=withergate-local"
+      - "PROFILE=LOCAL"
