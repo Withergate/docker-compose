@@ -13,6 +13,11 @@ services:
       echo 'CREATE DATABASE IF NOT EXISTS game; CREATE DATABASE IF NOT EXISTS profile;' > /docker-entrypoint-initdb.d/init.sql;
       /usr/local/bin/docker-entrypoint.sh --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
       "
+    healthcheck:
+        test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+        timeout: 45s
+        interval: 10s
+        retries: 10
 
   # Auth instance
   auth:
@@ -34,7 +39,8 @@ services:
       - "profile.datasource.jdbc-url=jdbc:mysql://database:3306/profile?useSSL=false"
       - "SPRING_PROFILES_ACTIVE=local"
     depends_on:
-      - database
+        database:
+            condition: service_healthy
 
   # Client instance
   client:
